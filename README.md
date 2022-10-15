@@ -11,11 +11,14 @@ I started to learn Go, and I decided to create a simple reply with a telegram bo
 
 ## Run
 
-Firstly please put telegram bot token into `.env` like
+- Firstly please put telegram bot token into `.env` like
 
 ```
 TELEGRAM_BOT_TOKEN=[YOUR_TOKEN]
 ```
+- run `go mod download`
+
+- finally `go run main.go`
 
 ## Tech Stacks:
 
