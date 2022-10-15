@@ -27,8 +27,43 @@ func initializeBot() *tgbotapi.BotAPI {
 	return bot
 }
 
+func sendMessage(bot *tgbotapi.BotAPI, chatID int64, text string) {
+	msg := tgbotapi.NewMessage(chatID, text)
+
+	bot.Send(msg)
+}
+
 func main() {
 	bot := initializeBot()
 
 	bot.Debug = true
+
+	// create update bot configuration
+	updateConfig := tgbotapi.NewUpdate(0)
+	updateConfig.Timeout = 30
+
+	// create listener
+	updates := bot.GetUpdatesChan(updateConfig)
+
+	for update := range updates {
+		if update.Message != nil {
+			userMsg := update.Message.Text
+			userID := update.Message.Chat.ID
+
+			log.Printf("[%v]: %s\n", userID, userMsg)
+
+			switch userMsg {
+			case "/start":
+				sendMessage(bot, userID, "Welcome to the simple reply bot\ngithub repo: https://github.com/uaintknowme/simple-telegram-bot")
+
+			case "author":
+				sendMessage(bot, userID, "https://github.com/uaintknowme")
+
+			case "hey":
+				sendMessage(bot, userID, "hey hru?")
+			}
+		}
+
+	}
+
 }
